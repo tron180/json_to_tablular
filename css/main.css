@@ -1,0 +1,14 @@
+table, th, tr, td {
+    border: 2px solid black;
+    text-align: center;
+    padding: 10px;
+}
+
+.container{
+    padding: 50px;
+    text-align: center;
+}
+
+#showData{
+    padding: 3% 31%;
+}
