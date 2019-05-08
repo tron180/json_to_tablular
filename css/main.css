@@ -4,6 +4,22 @@ table, th, tr, td {
     padding: 10px;
 }
 
+th{
+    background-color: #fcd04b;
+}
+
+td{
+    background-color: #fcad26;
+}
+
+td:hover{
+    box-shadow: 0 2px black;
+}
+
+table{
+    background-color: rgb(248, 220, 63);
+}
+
 .container{
     padding: 50px;
     text-align: center;
