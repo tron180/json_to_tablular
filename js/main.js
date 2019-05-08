@@ -526,10 +526,27 @@ var jsonData = [
         }
 ]
 
+var data = createId(jsonData);
+
+
+function createId(json) {
+    var data = [];
+    var index = 1;
+    
+    for(let obj of json) {
+        obj.id = index;
+        data.push(obj);
+        index++;
+    }
+    return data;
+}
+
+
+
 // Extracting Header
 var header = [];
-for (var i = 0; i < jsonData.length; i++) {
-    for (var key in jsonData[i]){
+for (var i = 0; i < data.length; i++) {
+    for (var key in data[i]){
         if (header.indexOf(key) == -1) {
             header.push(key);
         }
@@ -541,7 +558,9 @@ var table = document.createElement("table");
 table.setAttribute("id", "myTable");
 
 // Creating table contents
-var tr = table.insertRow(-1);
+var thead = table.createTHead();
+var tr = thead.insertRow();
+var tbody = table.createTBody();
 
 for (var i = 0; i < header.length; i++){
     var th = document.createElement("th");
@@ -550,46 +569,135 @@ for (var i = 0; i < header.length; i++){
     tr.appendChild(th);
 }
 
+
+
 // Filling data
-for (var i = 0; i < jsonData.length; i++) {
+// for (var i = 0; i < data.length; i++) {
 
-    tr = table.insertRow(-1);
+//     for (var j = 0; j < header.length; j++) {
+//         records.push(data[i][header[j]])
+//     }
+// }
 
-    for (var j = 0; j < header.length; j++) {
-        var td = tr.insertCell(-1);
-        
-        if (j == 0){
-            td.innerHTML = i+1;
-        }else{
-            td.innerHTML = jsonData[i][header[j]];
-        }
-    }
-}
 
 // Display data
 var divContainer = document.getElementById("showData");
 divContainer.appendChild(table);
 
 
-
+// Search Function
+var results = [];
+var called = false;
 
 function search() {
+
+    called = true;
+    results = [];
+
     var input = document.getElementById("myInput");
     var filter = input.value.toUpperCase();
     var table1 = document.getElementById("myTable");
     var tr1 = table1.getElementsByTagName("tr");
     
-
-    for (i = 0; i < tr1.length; i++) {
-        td = tr1[i].getElementsByTagName("td")[1];
+    for(let obj of data) {
+        if(obj.employee_name.toUpperCase().indexOf(filter)!=-1) {
+            results.push(obj);
+            console.log(results);
+        }
+    }
+    if(results) {
+        called = true;
+        createTableData(results,currentPage);
+    }
+    
+    // for (i = 0; i < tr1.length; i++) {
+    //     td = tr1[i].getElementsByTagName("td")[1];
         
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr1[i].style.display = "";
-          } else {
-            tr1[i].style.display = "none";
-          }
-        } 
-      }
+    //     if (td) {
+    //       txtValue = td.textContent || td.innerText;
+    //       if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    //         tr1[i].style.display = "";
+    //       } else {
+    //         tr1[i].style.display = "none";
+    //       }
+    //     } 
+    //   }
 }
+
+function createTableData(arr,currentPage) {
+    tbody.innerHTML = ""
+    for(let i = (currentPage-1)*recordsPerPage; i < (currentPage*recordsPerPage); i++){
+        tr = tbody.insertRow();
+        if(arr[i]) {
+            for(let heading of header) {
+                let tablecell = tr.insertCell();
+                tablecell.innerHTML = arr[i][heading];
+            }
+        }
+    }
+}
+
+
+
+// Pagination
+
+var currentPage = 1;
+var recordsPerPage = 15;
+
+function changePage(page){
+    var btn_next = document.getElementById("btn_next");
+    var btn_prev = document.getElementById("btn_prev");
+    var page_span = document.getElementById("page");
+
+    // Validating
+    if (page < 1) {
+        page = 1;
+    }
+    if (page > totalPages()) {
+        page = totalPages();
+    }
+   
+
+    if(!called){
+        createTableData(data,page);
+    } else {
+        createTableData(results,page);
+    }
+    
+    page_span.innerHTML = page + "/" + totalPages();
+
+    if (page == 1) {
+        btn_prev.style.visibility = "hidden";
+    } else {
+        btn_prev.style.visibility = "visible";
+    }
+
+    if (page == totalPages()) {
+        btn_next.style.visibility = "hidden";
+    } else {
+        btn_next.style.visibility = "visible";
+    }
+
+}
+
+function previousPage() {
+    if(currentPage > 1){
+        currentPage--;
+        changePage(currentPage);
+    }
+}
+
+function nextPage(){
+    if(currentPage < totalPages()){
+        currentPage++;
+        changePage(currentPage);
+    }
+}
+
+function totalPages(){
+    return Math.round(data.length / recordsPerPage);
+}
+
+window.onload = function() {
+    changePage(1);
+};

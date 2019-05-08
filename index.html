@@ -9,8 +9,12 @@
 </head>
 <body>
     <div class="container">
-        <input type="text" id="myInput" onkeyup="search()" placeholder="Search for names..">
+        <input type="text" id="myInput" onkeyup="search()" placeholder="Search for Employee names..">
         <p id="showData"></p>
+
+        <a href="javascript:previousPage()" id="btn_prev">Prev</a>
+        <a href="javascript:nextPage()" id="btn_next">Next</a>
+        page: <span id="page"></span>
     </div>
     
 
