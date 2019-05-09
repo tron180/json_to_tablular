@@ -23,7 +23,6 @@ tr:nth-child(2n+1){
 
 td{
     width: 2%;
-    /* background-color: #fcad26; */
 }
 
 tr:hover{
@@ -39,6 +38,11 @@ table{
     padding-bottom: 50px;
     width: 100%;
     text-align: center;
+}
+
+u{
+    color: rgb(8, 72, 136);
+    font-size: 19px;
 }
 
 #showData{

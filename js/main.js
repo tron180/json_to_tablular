@@ -549,7 +549,7 @@ var results = [];
 var called = false;
 
 var currentPage = 1;
-var recordsPerPage = 10;
+var recordsPerPage = 5;
 
 
 window.onload = function() {
