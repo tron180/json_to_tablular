@@ -1,19 +1,32 @@
 table, th, tr, td {
-    border: 2px solid black;
+    border: 0 solid black;
     text-align: center;
     padding: 10px;
 }
 
+td{
+    width: 2%;
+}
+
 th{
     background-color: #fcd04b;
+    border: 1px solid black;
+}
+
+th:hover{
+    box-shadow: 2px 2px black;
+}
+
+#myInput{
+    outline: none;
 }
 
 td{
     background-color: #fcad26;
 }
 
-td:hover{
-    box-shadow: 0 2px black;
+tr:hover{
+    box-shadow: 1px 1px black;
 }
 
 table{
@@ -21,10 +34,37 @@ table{
 }
 
 .container{
-    padding: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 100%;
     text-align: center;
 }
 
 #showData{
-    padding: 3% 30%;
+    width: 70%;
+    padding: 7% 20%;
+}
+
+#btn_prev, #btn_next{
+    padding: 7px 20px;
+    border-radius: 20px;
+    background-color: rgb(42, 187, 37);
+    color: black;
+    text-decoration: none;
+    box-shadow: 1px 4px rgb(32, 158, 28);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 auto;
+    cursor: pointer;
+    position: relative;
+}
+
+#btn_prev:hover, #btn_next:hover{
+    box-shadow: 1px 2px rgb(32, 158, 28);
+    top: 2px;
+}
+
+#btn_prev:active, #btn_next:active{
+    box-shadow: none;
+    top: 4px;
 }

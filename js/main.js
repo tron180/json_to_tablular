@@ -553,6 +553,8 @@ for (var i = 0; i < data.length; i++) {
     }            
 }
 
+var page_span = document.getElementById("page");
+
 // Creating table format
 var table = document.createElement("table");
 table.setAttribute("id", "myTable");
@@ -607,7 +609,21 @@ function search() {
     }
     if(results) {
         called = true;
+        page_span.innerHTML = currentPage + "/" + totalPages();
         createTableData(results,currentPage);
+        currentPage = 1;
+
+        if (page == 1) {
+            btn_prev.style.visibility = "hidden";
+        } else {
+            btn_prev.style.visibility = "visible";
+        }
+    
+        if (page == totalPages()) {
+            btn_next.style.visibility = "hidden";
+        } else {
+            btn_next.style.visibility = "visible";
+        }
     }
     
     // for (i = 0; i < tr1.length; i++) {
@@ -642,12 +658,11 @@ function createTableData(arr,currentPage) {
 // Pagination
 
 var currentPage = 1;
-var recordsPerPage = 15;
+var recordsPerPage = 5;
 
 function changePage(page){
     var btn_next = document.getElementById("btn_next");
     var btn_prev = document.getElementById("btn_prev");
-    var page_span = document.getElementById("page");
 
     // Validating
     if (page < 1) {
@@ -695,7 +710,11 @@ function nextPage(){
 }
 
 function totalPages(){
-    return Math.round(data.length / recordsPerPage);
+    if(!called){
+        return Math.round(data.length / recordsPerPage);
+    }else{
+        return Math.round(results.length / recordsPerPage);
+    }
 }
 
 window.onload = function() {
