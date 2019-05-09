@@ -527,32 +527,7 @@ var jsonData = [
 ]
 
 var data = createId(jsonData);
-
-
-function createId(json) {
-    var data = [];
-    var index = 1;
-    
-    for(let obj of json) {
-        obj.id = index;
-        data.push(obj);
-        index++;
-    }
-    return data;
-}
-
-
-
-// Extracting Header
 var header = [];
-for (var i = 0; i < data.length; i++) {
-    for (var key in data[i]){
-        if (header.indexOf(key) == -1) {
-            header.push(key);
-        }
-    }            
-}
-
 var page_span = document.getElementById("page");
 
 // Creating table format
@@ -564,82 +539,72 @@ var thead = table.createTHead();
 var tr = thead.insertRow();
 var tbody = table.createTBody();
 
-for (var i = 0; i < header.length; i++){
-    var th = document.createElement("th");
-    var th_old = header[i].charAt(0).toUpperCase() + header[i].slice(1);
-    th.innerHTML = th_old.replace(/_/g, " ");
-    tr.appendChild(th);
-}
-
-
-
-// Filling data
-// for (var i = 0; i < data.length; i++) {
-
-//     for (var j = 0; j < header.length; j++) {
-//         records.push(data[i][header[j]])
-//     }
-// }
-
-
 // Display data
 var divContainer = document.getElementById("showData");
 divContainer.appendChild(table);
 
-
 // Search Function
 var results = [];
+
 var called = false;
 
-function search() {
+var currentPage = 1;
+var recordsPerPage = 10;
 
-    called = true;
-    results = [];
 
-    var input = document.getElementById("myInput");
-    var filter = input.value.toUpperCase();
-    var table1 = document.getElementById("myTable");
-    var tr1 = table1.getElementsByTagName("tr");
-    
-    for(let obj of data) {
-        if(obj.employee_name.toUpperCase().indexOf(filter)!=-1) {
-            results.push(obj);
-            console.log(results);
-        }
-    }
-    if(results) {
-        called = true;
-        page_span.innerHTML = currentPage + "/" + totalPages();
-        createTableData(results,currentPage);
-        currentPage = 1;
+window.onload = function() {
+    changePage(1);
+};
 
-        if (page == 1) {
-            btn_prev.style.visibility = "hidden";
-        } else {
-            btn_prev.style.visibility = "visible";
-        }
-    
-        if (page == totalPages()) {
-            btn_next.style.visibility = "hidden";
-        } else {
-            btn_next.style.visibility = "visible";
-        }
+
+
+/**
+ * changePage is a function which decides on which page to jump.
+ * @param {page} page is the current page number.
+ */
+
+ // Pagination
+ function changePage(page){
+    var btn_next = document.getElementById("btn_next");
+    var btn_prev = document.getElementById("btn_prev");
+
+    validatingPage(page);
+   
+
+    if(!called){
+        createTableData(data,page);
+    } else {
+        createTableData(results,page);
     }
     
-    // for (i = 0; i < tr1.length; i++) {
-    //     td = tr1[i].getElementsByTagName("td")[1];
-        
-    //     if (td) {
-    //       txtValue = td.textContent || td.innerText;
-    //       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-    //         tr1[i].style.display = "";
-    //       } else {
-    //         tr1[i].style.display = "none";
-    //       }
-    //     } 
-    //   }
+    page_span.innerHTML = page + "/" + totalPages();
+
+    toggleVisibility(page);
+
 }
 
+
+/**
+ * validatingPage is a function which validates the page jump.
+ * @param {page} page is current page number.
+ */
+
+ // Validation of page
+ function validatingPage(page){
+    if (page < 1) {
+        page = 1;
+    }
+    if (page > totalPages()) {
+        page = totalPages();
+    }
+}
+
+
+/**
+ * createTableData is a function that creates the table after any search is done.
+ * @param {arr} arr is an array of matching searched contents, using which the table after searching is formed.
+ * @param {currenPage} currentPage is a number that defines the current working page.
+ */
 function createTableData(arr,currentPage) {
     tbody.innerHTML = ""
     for(let i = (currentPage-1)*recordsPerPage; i < (currentPage*recordsPerPage); i++){
@@ -655,32 +620,14 @@ function createTableData(arr,currentPage) {
 
 
 
-// Pagination
 
-var currentPage = 1;
-var recordsPerPage = 5;
+/**
+ * toggleVisibility is a function which controls the visibility of next and previous button
+ * @param {page} page is current page number. 
+ */
 
-function changePage(page){
-    var btn_next = document.getElementById("btn_next");
-    var btn_prev = document.getElementById("btn_prev");
-
-    // Validating
-    if (page < 1) {
-        page = 1;
-    }
-    if (page > totalPages()) {
-        page = totalPages();
-    }
-   
-
-    if(!called){
-        createTableData(data,page);
-    } else {
-        createTableData(results,page);
-    }
-    
-    page_span.innerHTML = page + "/" + totalPages();
-
+// Visibility of next and previous button
+function toggleVisibility(page) {
     if (page == 1) {
         btn_prev.style.visibility = "hidden";
     } else {
@@ -692,9 +639,10 @@ function changePage(page){
     } else {
         btn_next.style.visibility = "visible";
     }
-
 }
 
+
+// Checking for actions of previous button
 function previousPage() {
     if(currentPage > 1){
         currentPage--;
@@ -702,6 +650,7 @@ function previousPage() {
     }
 }
 
+// Checking for actions of next button
 function nextPage(){
     if(currentPage < totalPages()){
         currentPage++;
@@ -709,6 +658,7 @@ function nextPage(){
     }
 }
 
+// Showing the number of total pages
 function totalPages(){
     if(!called){
         return Math.round(data.length / recordsPerPage);
@@ -717,6 +667,91 @@ function totalPages(){
     }
 }
 
-window.onload = function() {
-    changePage(1);
-};
+
+extractHeader();
+headerFormat();
+
+
+/**
+ * extractHeader extract the header from array of objects for Table
+ */
+
+// Extracting Header
+
+function extractHeader(){
+    for (var i = 0; i < data.length; i++) {
+        for (var key in data[i]){
+            if (header.indexOf(key) == -1) {
+                header.push(key);
+            }
+        }            
+    }
+}
+
+
+/**
+ * headerFormat function removes the underscore and capitalize the words in it.
+ */
+
+// Changing Header Format
+function headerFormat(){
+    for (var i = 0; i < header.length; i++){
+        var th = document.createElement("th");
+        var th_old = header[i].charAt(0).toUpperCase() + header[i].slice(1);
+        th.innerHTML = th_old.replace(/_/g, " ");
+        tr.appendChild(th);
+    }
+}
+
+
+
+/**
+ * createId generates Id no. for Id column instead of random unique numbers
+ * @param {json}  json is an array of objects in which Id section is generated
+ */
+
+// Creating Ids
+function createId(json) {
+    var data = [];
+    var index = 1;
+    
+    for(let obj of json) {
+        obj.id = index;
+        data.push(obj);
+        index++;
+    }
+    return data;
+}
+
+
+
+/**
+ * search function handles the searching part of the application
+ */
+
+//Search Function
+function search() {
+
+    called = true;
+    results = [];
+
+    var input = document.getElementById("myInput");
+    var filter = input.value.toUpperCase();
+    
+    for(let obj of data) {
+        if(obj.employee_name.toUpperCase().indexOf(filter)!=-1) {
+            results.push(obj);
+            console.log(results);
+        }
+    }
+    if(results) {
+        called = true;
+        page_span.innerHTML = currentPage + "/" + totalPages();
+        createTableData(results,currentPage);
+        currentPage = 1;
+
+        toggleVisibility(currentPage);
+    }
+}
+
+

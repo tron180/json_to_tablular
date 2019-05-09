@@ -4,10 +4,6 @@ table, th, tr, td {
     padding: 10px;
 }
 
-td{
-    width: 2%;
-}
-
 th{
     background-color: #fcd04b;
     border: 1px solid black;
@@ -17,12 +13,17 @@ th:hover{
     box-shadow: 2px 2px black;
 }
 
+tr:nth-child(2n+1){
+    background-color: #fcad26;
+}
+
 #myInput{
     outline: none;
 }
 
 td{
-    background-color: #fcad26;
+    width: 2%;
+    /* background-color: #fcad26; */
 }
 
 tr:hover{
@@ -42,7 +43,7 @@ table{
 
 #showData{
     width: 70%;
-    padding: 7% 20%;
+    padding: 3% 20%;
 }
 
 #btn_prev, #btn_next{
