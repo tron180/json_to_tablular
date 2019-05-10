@@ -1,12 +1,32 @@
+body{
+    background: #0F2027;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+}
+
+input{
+    width: 280px;
+    height: 30px;
+    border-radius: 10%;
+}
+
+h2{
+    color: white;
+    border-bottom: 2px solid dodgerblue;
+}
+
 table, th, tr, td {
     border: 0 solid black;
     text-align: center;
     padding: 10px;
+    color: white;
 }
 
 th{
-    background-color: #fcd04b;
-    border: 1px solid black;
+    background: #fc4a1a;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #f7b733, #fc4a1a);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #f7b733, #fc4a1a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border: 1px solid #262626;
 }
 
 th:hover{
@@ -14,7 +34,10 @@ th:hover{
 }
 
 tr:nth-child(2n+1){
-    background-color: #fcad26;
+    background: #0f0c29;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 #myInput{
@@ -25,12 +48,15 @@ td{
     width: 2%;
 }
 
-tr:hover{
-    box-shadow: 1px 1px black;
-}
+/* tr:hover{
+    box-shadow: 1px 2px black;
+} */
 
 table{
-    background-color: rgb(248, 220, 63);
+    background: #0F2027;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .container{
@@ -41,7 +67,7 @@ table{
 }
 
 u{
-    color: rgb(8, 72, 136);
+    color: white;
     font-size: 19px;
 }
 
@@ -53,7 +79,9 @@ u{
 #btn_prev, #btn_next{
     padding: 7px 20px;
     border-radius: 20px;
-    background-color: rgb(42, 187, 37);
+    background: #56ab2f;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #a8e063, #56ab2f);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #a8e063, #56ab2f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     color: black;
     text-decoration: none;
     box-shadow: 1px 4px rgb(32, 158, 28);
